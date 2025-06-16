@@ -6,15 +6,17 @@
 name: Maven CI
 
 on:
-  push:
-    branches:
-      - main
-      - 1.*
-      - 2.*
-      - 3.*
-      - 4.*
-    paths-ignore:
-        - '*.md'
+  workflow_dispatch:	
+#on:
+#  push:
+#    branches:
+#      - main
+#      - 1.*
+#      - 2.*
+#      - 3.*
+#      - 4.*
+#    paths-ignore:
+#        - '*.md'	
 
 jobs:
   build:
