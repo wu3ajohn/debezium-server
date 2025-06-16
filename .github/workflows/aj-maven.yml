@@ -1,0 +1,58 @@
+name: Ajohn Maven CI
+
+on:
+  workflow_dispatch:	
+#on:
+#  push:
+#    branches:
+#      - main
+#      - 1.*
+#      - 2.*
+#      - 3.*
+#      - 4.*
+#    paths-ignore:
+#        - '*.md'	
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout core repository
+        uses: actions/checkout@v4
+        with:
+          repository: debezium/debezium
+          ref: ${{ github.ref }}
+          path: core
+      - name: Checkout Debezium Server
+        uses: actions/checkout@v4
+        with:
+          path: server
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Maven build core
+        run: ./server/mvnw clean install -f core/pom.xml -DskipTests -DskipITs -Dformat.formatter.goal=validate -Dformat.imports.goal=check -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false -Dmaven.wagon.httpconnectionManager.ttlSeconds=120
+		
+      - name: Maven build server
+        run: ./server/mvnw clean install -f core/pom.xml -DskipTests -DskipITs -Dformat.formatter.goal=validate -Dformat.imports.goal=check -Dhttp.keepAlive=false -Dmaven.wagon.http.pool=false -Dmaven.wagon.httpconnectionManager.ttlSeconds=120
+		
+      # -----------------------------
+      # 添加：上传构建产物
+      # -----------------------------
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: debezium-build-output
+          path: |
+            **/target/*.jar
+            **/target/*.tar.gz
+          if-no-files-found: ignore
