@@ -1,5 +1,43 @@
 # Debezium Server
 
+set JAVA_HOME=D:\01_App\01_java\jdk-dragonwell-21.0.7.0.7
+set PATH=%JAVA_HOME%\bin;D:\01_App\01_java\maven-3.9.10\bin;%PATH%
+* JDK 21 or later
+* [Apache Maven] 3.9.8
+
+mvn clean package -DskipITs -DskipTests -Passembly -e
+
+git clone git@github.com:debezium/debezium-server.git
+git remote set-url origin git@github.com:debezium/debezium-server.git
+
+
+git checkout -b 3.1.2 v3.1.2.Final
+或者
+git checkout v3.1.2.Final   # 进入分离 HEAD 状态
+git checkout -b 3.1.2  # 创建并切换到新分支
+
+mvn clean package -DskipITs -DskipTests -Passembly -e
+有问题的文件重命名，
+
+git mv *test.java *test.java.bak
+
+mvn clean package -DskipITs -DskipTests -Passembly  -rf :debezium-system-tests
+
+The archives can be found under `debezium-server-dist/target`.
+
+git remote set-url origin git@github.com:wu3ajohn/debezium-server.git
+git push -u origin 3.1.2
+
+
+
+
+
+
+
+
+
+
+
 Debezium Server is a standalone Java application built on Quarkus framework.
 The application itself contains the `core` module and a set of modules responsible for communication with different target systems.
 ## Building and Packaging

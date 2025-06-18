@@ -40,7 +40,7 @@
     </properties>
 
     <repositories>
-        <repository>
+        <!-- <repository>
             <id>central-snapshots</id>
             <name>Maven Central Snapshots</name>
             <url>${publish.snapshot.url}</url>
@@ -52,7 +52,18 @@
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </snapshots>
-        </repository>
+        </repository> -->
+		<repository>
+			<id>jboss-public-repository</id>
+			<name>JBoss Public Repository</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
     </repositories>
 
     <modules>
@@ -125,7 +136,7 @@
         </dependency>
 
         <!-- Testing -->
-        <dependency>
+        <!-- <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
@@ -180,7 +191,7 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
-
+		 -->
 
         <!-- Aligning versions/fixing scopes -->
         <dependency>
